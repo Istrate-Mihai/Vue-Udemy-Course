@@ -15,20 +15,43 @@
   <body>
     <header>
       <h1>Monster Slayer</h1>
+      <div class="header-img">
+        <img src="img/half-orc-character-tips.png" alt="header-logo" />
+      </div>
     </header>
+
     <div id="game">
-      <section id="monster" class="container">
-        <h2>Monster Health</h2>
-        <div class="healthbar">
-          <div class="healthbar__value" :style="monsterHealthBarStyles"></div>
+      <!-- Monster -->
+      <section id="monster" class="container character">
+        <div class="stats">
+          <h2>Monster Health</h2>
+
+          <div class="healthbar">
+            <div class="healthbar__value" :style="monsterHealthBarStyles"></div>
+          </div>
+        </div>
+
+        <div class="character-logo">
+          <img :src="monsterAvatar" alt="monster-profile" />
         </div>
       </section>
-      <section id="player" class="container">
-        <h2>Your Health</h2>
-        <div class="healthbar">
-          <div class="healthbar__value" :style="playerHealthBarStyles"></div>
+
+      <!-- Player -->
+      <section id="player" class="container character">
+        <div class="stats">
+          <h2>Slayer Health</h2>
+
+          <div class="healthbar">
+            <div class="healthbar__value" :style="playerHealthBarStyles"></div>
+          </div>
+        </div>
+
+        <div class="character-logo">
+          <img :src="playerAvatar" alt="player-profile" />
         </div>
       </section>
+
+      <!-- Win Conditions -->
       <section class="container" v-if="winner">
         <h2>Game Over</h2>
         <h3 v-if="winner === 'player'">You won!</h3>
@@ -36,12 +59,21 @@
         <h3 v-else>It's a draw</h3>
         <button @click="startGame">Start Game</button>
       </section>
+
+      <!-- Controls -->
       <section id="controls" v-else>
-        <button @click="attackMonster">ATTACK</button>
-        <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">SPECIAL ATTACK</button>
-        <button @click="healPlayer">HEAL</button>
-        <button @click="surrender">SURRENDER</button>
+        <div class="active-controls">
+          <button @click="attackMonster">ATTACK</button>
+          <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">SPECIAL ATTACK</button>
+        </div>
+
+        <div class="passive-controls">
+          <button @click="healPlayer">HEAL</button>
+          <button @click="surrender">SURRENDER</button>
+        </div>
       </section>
+
+      <!-- Battle Log -->
       <section id="log" class="container">
         <button @click="toggleBattleLog">{{ isBattleLogVisible ? 'Hide' : 'Show' }} battle log</button>
         <div v-if="isBattleLogVisible">

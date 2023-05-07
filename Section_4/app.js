@@ -1,3 +1,6 @@
+const monsterImageList = ['monster_1.png', 'monster_2.png'];
+const playerImageList  = ['player_1.png', 'player_2.png'];
+
 function getRandom(min, max) {
   return Math.floor((Math.random() * (max - min)) + min);
 }
@@ -5,19 +8,27 @@ function getRandom(min, max) {
 const app = Vue.createApp({
   data() {
     return {
-      monsterHealth: 100,
-      playerHealth: 100,
+      monsterHealth: '100',
+      playerHealth: '100',
       currentRound: 0,
       winner: null,
       logMessageList: [],
-      isBattleLogVisible: true
+      isBattleLogVisible: true,
+      playerAvatar: this.getPlayerAvatar(),
+      monsterAvatar: this.getMonsterAvatar()
     }
   },
   computed: {
     monsterHealthBarStyles() {
+      if (this.monsterHealth <= 0) {
+        return {width: 0 + '%'}
+      }
       return {width: this.monsterHealth + '%'}
     },
     playerHealthBarStyles() {
+      if (this.playerHealth <= 0) {
+        return {width: 0 + '%'}
+      }
       return {width: this.playerHealth + '%'}
     },
     mayUseSpecialAttack() {
@@ -48,12 +59,14 @@ const app = Vue.createApp({
   },
   methods: {
     startGame() {
-      this.monsterHealth       = 100;
-      this.playerHealth        = 100;
+      this.monsterHealth       = '100';
+      this.playerHealth        = '100';
       this.currentRound        = 0;
       this.winner              = null;
       this.logMessageList      = [];
       this.isBattleLogVisible  = true;
+      this.playerAvatar        = this.getPlayerAvatar();
+      this.monsterAvatar       = this.getMonsterAvatar();
     },
     attackMonster() {
       this.currentRound++;
@@ -141,6 +154,14 @@ const app = Vue.createApp({
     },
     toggleBattleLog() {
       this.isBattleLogVisible = !this.isBattleLogVisible;
+    },
+    getMonsterAvatar() {
+      const index = Math.round(Math.random());
+      return 'img/' + monsterImageList[index];
+    },
+    getPlayerAvatar() {
+      const index = Math.round(Math.random());
+      return 'img/' + playerImageList[index];
     }
   }
 });
